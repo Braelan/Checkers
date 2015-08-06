@@ -15,13 +15,13 @@ class Board
    Array.new(SIZE){Array.new(SIZE) }
   end
 
-  def []= (*pos, piece)
-    row, col = pos
+  def []= (pos, piece)
+    row, col = pos[0], pos[1]
     self.grid[row][col] = piece
   end
 
-  def [] (*pos)
-    row, col = pos
+  def [] (pos)
+    row, col = pos[0], pos[1]
     self.grid[row][col]
   end
 

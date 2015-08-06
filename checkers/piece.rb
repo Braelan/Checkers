@@ -30,7 +30,7 @@ class Piece
 
   def perform_slide?(delta)
       abs_pos = self.transform(delta)
-       board[abs_pos[0], abs_pos[1]] == nil && on_board?(abs_pos) ? true : false
+       board[abs_pos] == nil && on_board?(abs_pos) ? true : false
      # returns true or false
   end
 
@@ -38,21 +38,20 @@ class Piece
       potential = transform([delta[0]*2, delta[1]*2])
       enemy_pos= self.transform(delta)
       if enemy?(enemy_pos) && on_board?(potential)
-         true if board[potential[0],potential[1]].nil?
+         return true if board[potential].nil?
       end
       false
      #return true or false
   end
 
   def place_piece
-    i,j = self.pos[0], self.pos[1]
-    self.board[i,j] = self
+
+    self.board[self.pos] = self
   end
 
   def enemy?(pos)
-    i,j = pos[0], pos[1]
 
-    !self.board[i,j].nil?  && self.board[i,j].color != self.color ? true : false
+    !self.board[pos].nil?  && self.board[pos].color != self.color ? true : false
 
   end
 
