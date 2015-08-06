@@ -1,7 +1,10 @@
 require_relative 'board.rb'
+require 'colorize'
+require 'byebug'
 # an array of deltas with slide and jump arrays
   DELTAS = [[1,1], [1,-1]]
-  SYMBOLS = ["C", "K"]
+  SYMBOLS = {:king => "K", :pawn =>"C"}
+  TYPES = [:pawn, :king]
 
 
 class Piece
@@ -61,6 +64,9 @@ class Piece
     pos[1].between?(0,7) && pos[0].between?(0,7)
   end
 
-  def render_piece
+  def render
+    symbol = SYMBOLS[self.type]
+    return symbol.colorize(self.color)
+    symbol
   end
 end
