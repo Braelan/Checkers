@@ -8,11 +8,12 @@ require 'byebug'
 
 
 class Piece
-  attr_accessor :pos, :type, :orientation, :board #orientation is 1, -1 or 0 for a king
-  attr_reader :color
+  attr_accessor :pos, :type, :orientation, :board#orientation is 1, -1 or 0 for a king
+  attr_reader :color, :start
 
-  def initialize(pos, board, color, orientation)
+  def initialize(pos, board, color, orientation, start)
     @pos, @board, @color, @orientation = pos, board, color, orientation
+    @start = start
     @type = :pawn
     place_piece
   end
@@ -69,6 +70,16 @@ class Piece
     symbol = SYMBOLS[self.type]
     return symbol.colorize(self.color)
     symbol
+  end
+
+  def promote
+    case 3 <=> self.start
+    when -1
+      self.type = :king if self.pos[0] == 0
+    when 1
+      self.type = :king if self.pos[0] == 7
+    end
+
   end
 
 

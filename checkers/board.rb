@@ -23,9 +23,9 @@ class Board
         row_idx = row_idx + start
       row.each_with_index do |cell, col_idx|
         if (col_idx + 2).even? && (row_idx +2).even?
-          self[[row_idx, col_idx]] = Piece.new([row_idx, col_idx], self, color, orientation)
+          self[[row_idx, col_idx]] = Piece.new([row_idx, col_idx], self, color, orientation, start)
         elsif (col_idx+2).odd? && (row_idx).odd?
-          self[[row_idx, col_idx]] = Piece.new([row_idx, col_idx], self, color, orientation)
+          self[[row_idx, col_idx]] = Piece.new([row_idx, col_idx], self, color, orientation, start)
         end
       end
       count = count +1
@@ -155,15 +155,13 @@ class Board
 
  def move!(sequence)
    move_list = sequence.map {|coord| coord.dup}
-   debugger
    check = true
    if sequence.length > 2
      check = self.dup_moves(sequence)
    end
    move_or_sequence(move_list) if check
+   #self[move_list.last].promote if check
  end
-
- def 
 
 
  end
