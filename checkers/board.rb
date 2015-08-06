@@ -19,5 +19,8 @@ class Board
     self.grid[row][col] = piece
   end
 
-
+  def [] (*pos)
+    row, col = pos
+    self.grid[row][col]
+  end
 end

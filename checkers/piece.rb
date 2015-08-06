@@ -1,6 +1,7 @@
 require_relative 'board.rb'
-  SLIDE_DELTAS = [[1,1], [1,-1]]
-  JUMP_DELTAS = [[2,2], [2,-2]
+# an array of deltas with slide and jump arrays
+  DELTAS = [[1,1], [1,-1]]
+  SYMBOLS = ["C", "K"]
 
 
 class Piece
@@ -18,15 +19,26 @@ class Piece
   end
 
   def move_diffs
-
+    deltas = DELTAS
+    neg_deltas = DELTAS.map{ |slide| [slide[0]* -1, slide[1]] }
+    return [deltas[0] + neg_deltas[0], deltas[1] + neg_deltas[1]]  if self.type == :king
+    self.orientation == :up ? neg_deltas : deltas
   end
 
-  def perform_slide
-
+  def perform_slide?(delta)
+      abs_pos = self.transform(delta)
+       board[abs_pos[0], abs_pos[1]] == nil && on_board?(abs_pos) ? true : false
+     # returns true or false
   end
 
-  def perform_jump
-
+  def perform_jump?(delta)
+      potential = transform([delta[0]*2, delta[1]*2])
+      enemy_pos= self.transform(delta)
+      if enemy?(enemy_pos) && on_board?(potential)
+         true if board[potential[0],potential[1]].nil?
+      end
+      false
+     #return true or false
   end
 
   def place_piece
@@ -34,7 +46,21 @@ class Piece
     self.board[i,j] = self
   end
 
+  def enemy?(pos)
+    i,j = pos[0], pos[1]
 
+    !self.board[i,j].nil?  && self.board[i,j].color != self.color ? true : false
 
+  end
 
+  def transform(delta)
+    [self.pos[0] + delta[0], self.pos[1] + delta[1]]
+  end
+
+  def on_board?(pos)
+    pos[1].between?(0,7) && pos[0].between?(0,7)
+  end
+
+  def render_piece
+  end
 end
