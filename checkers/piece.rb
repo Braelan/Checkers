@@ -34,7 +34,9 @@ class Piece
      # returns true or false
   end
 
+
   def perform_jump?(delta)
+    #debugger
       potential = transform([delta[0]*2, delta[1]*2])
       enemy_pos= self.transform(delta)
       if enemy?(enemy_pos) && on_board?(potential)
@@ -68,4 +70,9 @@ class Piece
     return symbol.colorize(self.color)
     symbol
   end
+
+
+
+
+
 end
